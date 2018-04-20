@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "sample" > sample
+aws s3 cp sample s3://$S3_BUCKET_NAME/sample
+exit 0
 
 # --- SETTINGS ---
 

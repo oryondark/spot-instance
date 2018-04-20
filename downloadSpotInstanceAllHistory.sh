@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo "sample" > sample
-aws s3 cp sample s3://$S3_BUCKET_NAME/sample
-exit 0
 
 # --- SETTINGS ---
 
@@ -21,6 +18,11 @@ S3_BUCKET_NAME=kmu-spot-instance-all-history
 START_TIME=$(date +%Y-%m-01T00:00:00 -d '1 month ago')
 END_TIME=$(date +%Y-%m-01T00:00:00)
 FILE_NAME=$(date +%Y%m -d '1 month ago').json
+
+
+echo "sample" > sample
+aws s3 cp sample s3://$S3_BUCKET_NAME/sample
+exit 0
 
 
 # --- FETCHING SPOT-PRICE-HISTORY FOR ALL REGIONS ---

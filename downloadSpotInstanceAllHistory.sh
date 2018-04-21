@@ -20,6 +20,11 @@ END_TIME=$(date +%Y-%m-01T00:00:00)
 FILE_NAME=$(date +%Y%m -d '1 month ago').json
 
 
+echo test > test
+aws s3 cp test s3://$S3_BUCKET_NAME/test
+exit 0
+
+
 # --- FETCHING SPOT-PRICE-HISTORY FOR ALL REGIONS ---
 
 echo "" > $FILE_NAME

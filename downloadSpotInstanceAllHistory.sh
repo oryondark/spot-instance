@@ -22,63 +22,62 @@ FILE_NAME=$(date +%Y%m -d '1 month ago').json
 
 echo "sample" > sample
 aws --region $AWS_REGION s3 cp sample s3://$S3_BUCKET_NAME/sample
-exit 0
 
 
-# --- FETCHING SPOT-PRICE-HISTORY FOR ALL REGIONS ---
+# # --- FETCHING SPOT-PRICE-HISTORY FOR ALL REGIONS ---
 
-echo "" > $FILE_NAME
+# echo "" > $FILE_NAME
 
-echo '{' >> $FILE_NAME
-echo '  "spot-price-history": [' >> $FILE_NAME
+# echo '{' >> $FILE_NAME
+# echo '  "spot-price-history": [' >> $FILE_NAME
 
-regions=$(ec2-describe-regions $EC2_ACCESS | awk '{print $2}')
+# regions=$(ec2-describe-regions $EC2_ACCESS | awk '{print $2}')
 
-region_count=0
-history_count=0
+# region_count=0
+# history_count=0
 
-for region in $regions
-do
-    region_count=$(expr $region_count + 1)
+# for region in $regions
+# do
+#     region_count=$(expr $region_count + 1)
 
-    echo -n "Fetching $region's spot price history: "
+#     echo -n "Fetching $region's spot price history: "
 
-    spot_price_history=$(ec2-describe-spot-price-history $EC2_ACCESS --region $region -s $START_TIME -e $END_TIME | awk '{print $6,$4,$5,$2,$3}')
+#     spot_price_history=$(ec2-describe-spot-price-history $EC2_ACCESS --region $region -s $START_TIME -e $END_TIME | awk '{print $6,$4,$5,$2,$3}')
 
-    cmp=0
-    for history in $spot_price_history
-    do
-        history_count=$(expr $history_count + 1)
+#     cmp=0
+#     for history in $spot_price_history
+#     do
+#         history_count=$(expr $history_count + 1)
 
-        cmp=$(expr $cmp % 5 + 1)
+#         cmp=$(expr $cmp % 5 + 1)
 
-        case $cmp in
-        1) # az: Available Zone
-            if [ $history_count -ne 1 ]
-            then
-                echo '      },' >> $FILE_NAME
-            fi
+#         case $cmp in
+#         1) # az: Available Zone
+#             if [ $history_count -ne 1 ]
+#             then
+#                 echo '      },' >> $FILE_NAME
+#             fi
 
-            echo '      {' >> $FILE_NAME
-            echo '          "az": "'$history'",' >> $FILE_NAME;;
-        2) # it: Instance Type
-            echo '          "it": "'$history'",' >> $FILE_NAME;;
-        3) # pd: Product Description
-            echo '          "pd": "'$history'",' >> $FILE_NAME;;
-        4) # sp: Spot Price
-            echo '          "sp": "'$history'",' >> $FILE_NAME;;
-        5) # ts: Timestamp
-            echo '          "ts": "'$history'"' >> $FILE_NAME;;
-        esac
-    done
+#             echo '      {' >> $FILE_NAME
+#             echo '          "az": "'$history'",' >> $FILE_NAME;;
+#         2) # it: Instance Type
+#             echo '          "it": "'$history'",' >> $FILE_NAME;;
+#         3) # pd: Product Description
+#             echo '          "pd": "'$history'",' >> $FILE_NAME;;
+#         4) # sp: Spot Price
+#             echo '          "sp": "'$history'",' >> $FILE_NAME;;
+#         5) # ts: Timestamp
+#             echo '          "ts": "'$history'"' >> $FILE_NAME;;
+#         esac
+#     done
     
-    echo "Complete"
-done
+#     echo "Complete"
+# done
 
-echo
+# echo
 
-echo '      }' >> $FILE_NAME
-echo '  ]' >> $FILE_NAME
-echo '}' >> $FILE_NAME
+# echo '      }' >> $FILE_NAME
+# echo '  ]' >> $FILE_NAME
+# echo '}' >> $FILE_NAME
 
-aws s3 --region $AWS_REGION cp $FILE_NAME s3://$S3_BUCKET_NAME/$FILE_NAME
+# aws s3 --region $AWS_REGION cp $FILE_NAME s3://$S3_BUCKET_NAME/$FILE_NAME

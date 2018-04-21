@@ -21,7 +21,7 @@ FILE_NAME=$(date +%Y%m -d '1 month ago').json
 
 
 echo "sample" > sample
-aws s3 cp sample s3://$S3_BUCKET_NAME/sample
+aws --region $AWS_REGION s3 cp sample s3://$S3_BUCKET_NAME/sample
 exit 0
 
 

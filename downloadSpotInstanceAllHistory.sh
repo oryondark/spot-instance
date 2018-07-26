@@ -18,7 +18,8 @@ S3_BUCKET_NAME=kmu-spot-instance-all-history
 # CONSTANTS
 START_TIME=$(date +%Y-%m-01T00:00:00 -d '1 month ago')
 END_TIME=$(date +%Y-%m-01T00:00:00)
-FILE_NAME=$(date +%Y%m -d '1 month ago').json
+#FILE_NAME=$(date +%Y%m -d '1 month ago').json
+FILE_NAME=test_test_test.json
 
 
 # --- FETCHING SPOT-PRICE-HISTORY FOR ALL REGIONS ---
